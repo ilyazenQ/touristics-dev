@@ -10,6 +10,7 @@ use App\Actions\UploadPlaceAction;
 use App\Models\AboutPlace;
 use App\Models\Location;
 use App\Models\Place;
+use App\Models\RoomAbout;
 use App\Models\Type;
 use Illuminate\Http\Request;
 
@@ -21,13 +22,20 @@ class PlaceController extends Controller
     {
         $place = Place::findOrFail($id);
         $about = $place->abouts;
-
+        try {
+            $rooms = $place->rooms;
+            $aboutRoom = RoomAbout::all();
+        } catch (Exception $e) {
+            $rooms = [];
+            $aboutRoom = [];
+        }
         return view(
             'single',
             [
                 'place' => $place,
+                'rooms' => $rooms,
+                'aboutRoom' => $aboutRoom,
                 'about' => $about,
-
             ]
         );
     }

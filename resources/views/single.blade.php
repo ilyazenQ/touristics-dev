@@ -43,16 +43,7 @@
                                     </button>
                                 </li>
 
-                                <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">
-                                        Другие услуги</a>
-                                    <ul class="dropdown-menu">
-                                        <li><a class="dropdown-item" href="#" id="dropdown-tab-1" data-bs-toggle="tab" data-bs-target="#dropdown-pane-1" type="button" role="tab" aria-controls="dropdown-pane-1" aria-selected="false">
-                                                Бизнес услуги</a></li>
-                                        <li><a class="dropdown-item" href="#" id="dropdown-tab-2" data-bs-toggle="tab" data-bs-target="#dropdown-pane-2" type="button" role="tab" aria-controls="dropdown-pane-2" aria-selected="false">
-                                                Санаторные услуги</a></li>
-                                    </ul>
-                                </li>
+
                             </ul>
 
 
@@ -123,7 +114,7 @@
                                                 <li><h5>Общая информация</h5></li>
                                                 @foreach($about as $k => $v)
                                                     @if($v->about_type_id === 1)
-                                                        <li>{{ $v->titile }}</li>
+                                                        <li>{{ $v->title }}</li>
                                                     @endif
                                                 @endforeach
 
@@ -162,7 +153,7 @@
                                 </div>
 
                             </div>
-                            <div class="tab-pane" id="messages" role="tabpanel" aria-labelledby="messages-tab">
+                            <div class="tab-pane" id="feed" role="tabpanel" aria-labelledby="messages-tab">
 
                                 <div class="modal-info-header">
 
@@ -172,23 +163,37 @@
 
                                         <div class="col-lg-4 col-md-4 col-sm-12 p-0">
                                             <p class="info-header-text">
-                                                Номерной фонд: {{ $place->userFill['room-fund'] }} <br>
-                                                @if(!is_null($place->distance_to))
-                                                    Количество конференц залов: {{ $place->userFill['conference-hall-fund'] }} <br>
+                                                Места для приготовления и приема пищи:
+                                                {{ $place->userFill['cooking'] }} <br>
+
+                                                Стоимость питания:
+                                                {{ $place->userFill['cooking-price'] }} <br>
+                                                <br>
+
+                                                @if($place->userFill['breakfast-start'])
+                                                    Завтрак начинается c: {{ $place->userFill['breakfast-start'] }} ч;
+                                                    Длится до: {{ $place->userFill['breakfast-end'] }} <br>
+
+                                                    Концепция завтрака:
+                                                      @foreach($about as $k => $v)
+                                                         @if($v->about_type_id === 9)
+                                                        <li>{{ $v->title }}</li>
+                                                         @endif
+                                                    @endforeach
+
                                                 @endif
-                                                @if(!is_null($place->distance_to))
-                                                    Количество ресторанов/кафе на территории: {{ $place->userFill['restaurant-fund'] }} <br>
-                                                @endif
+
+
 
                                             </p>
                                         </div>
 
                                         <div class="col-lg-4 col-md-4 col-sm-12 p-0">
                                             <ul class="single-list">
-                                                <li><h5>На территории</h5></li>
+                                                <li><h5> Возможности для приготовления</h5></li>
                                                 @foreach($about as $k => $v)
-                                                    @if($v->about_type_id === 7)
-                                                        <li>{{ $v->titile }}</li>
+                                                    @if($v->about_type_id === 8)
+                                                        <li>{{ $v->title }}</li>
                                                     @endif
                                                 @endforeach
 
@@ -196,10 +201,10 @@
                                             </ul>
 
                                             <ul class="single-list">
-                                                <li><h5>Безопасность</h5></li>
+                                                <li><h5>Кухня ресторанов</h5></li>
                                                 @foreach($about as $k => $v)
-                                                    @if($v->about_type_id === 6)
-                                                        <li>{{ $v->titile }}</li>
+                                                    @if($v->about_type_id === 10)
+                                                        <li>{{ $v->title }}</li>
                                                     @endif
                                                 @endforeach
 
@@ -212,9 +217,9 @@
                                         <div class="col-lg-4 col-md-4 col-sm-12 p-0">
 
                                                 <ul class="single-list">
-                                                    <li><h5>Услуги и удобства</h5></li>
+                                                    <li><h5>Дополнительные услуги</h5></li>
                                                     @foreach($about as $k => $v)
-                                                        @if($v->about_type_id === 5)
+                                                        @if($v->about_type_id === 11)
                                                             <li>{{ $v->title }}</li>
                                                         @endif
                                                     @endforeach
@@ -232,7 +237,7 @@
 
                             </div>
 
-                            <div class="tab-pane" id="feed" role="tabpanel" aria-labelledby="feed-tab">
+                            <div class="tab-pane" id="messages" role="tabpanel" aria-labelledby="feed-tab">
                                 <div class="modal-info-header">
 
 
@@ -240,40 +245,56 @@
 
 
                                         <div class="col-lg-4 col-md-4 col-sm-12 p-0">
-                                            <h5>Title</h5>
                                             <p class="info-header-text">
-                                                Необходимые документы для заезда: Для взрослых: ваучер, паспортДля детей - свидетельство о рождении (до 14 лет), паспорт (старше 14 лет), нотариальное согласие, если ребенок едет без родителя Рекомендуем и взрослым и детям брать с собой медицинский полис. - просто текст Отмена/предоплата: правила отмены бронирования и предоплаты зависят от типа выбранного варианта. В связи с коронавирусом (COVID-19) в этом объекте размещения сейчас
+                                                Номерной фонд: {{ $place->userFill['room-fund'] }} <br>
+                                                @if(!is_null($place->userFill['conference-hall-fund']))
+                                                    Количество конференц залов: {{ $place->userFill['conference-hall-fund'] }} <br>
+                                                @endif
+                                                @if(!is_null( $place->userFill['restaurant-fund']))
+                                                    Количество ресторанов/кафе на территории: {{ $place->userFill['restaurant-fund'] }} <br>
+                                                @endif
+
                                             </p>
                                         </div>
+
                                         <div class="col-lg-4 col-md-4 col-sm-12 p-0">
                                             <ul class="single-list">
-                                                <li><h5>Title</h5></li>
-                                                <li>Lorem ipsum dolor</li>
-                                                <li>Lorem ipsum dolor Lorem ipsum dolor</li>
-                                                <li>Lorem ipsum dolor</li>
-                                                <li>Lorem ipsum dolor Lorem ipsum dolor</li>
-                                                <li>Lorem ipsum dolor</li>
-                                                <li>Lorem ipsum dolor Lorem ipsum dolor</li>
-                                                <li>Lorem ipsum dolor</li>
-                                            </ul>
-                                        </div>
-                                        <div class="col-lg-4 col-md-4 col-sm-12 p-0">
-                                            <ul class="single-list">
-                                                <li><h5>Title</h5></li>
-                                                <li>Lorem ipsum dolor</li>
-                                                <li>Lorem ipsum dolor Lorem ipsum dolor</li>
-                                                <li>Lorem ipsum dolor</li>
-                                                <li>Lorem ipsum dolor Lorem ipsum dolor</li>
-                                                <li>Lorem ipsum dolor</li>
-                                                <li>Lorem ipsum dolor Lorem ipsum dolor</li>
-                                                <li>Lorem ipsum dolor</li>
+                                                <li><h5>На территории</h5></li>
+                                                @foreach($about as $k => $v)
+                                                    @if($v->about_type_id === 7)
+                                                        <li>{{ $v->title }}</li>
+                                                    @endif
+                                                @endforeach
+
+
                                             </ul>
 
                                             <ul class="single-list">
-                                                <li><h5>Title</h5></li>
-                                                <li>Lorem ipsum dolor</li>
-                                                <li>Lorem ipsum dolor Lorem ipsum dolor</li>
+                                                <li><h5>Безопасность</h5></li>
+                                                @foreach($about as $k => $v)
+                                                    @if($v->about_type_id === 6)
+                                                        <li>{{ $v->title }}</li>
+                                                    @endif
+                                                @endforeach
+
+
                                             </ul>
+
+
+                                        </div>
+
+                                        <div class="col-lg-4 col-md-4 col-sm-12 p-0">
+
+                                            <ul class="single-list">
+                                                <li><h5>Услуги и удобства</h5></li>
+                                                @foreach($about as $k => $v)
+                                                    @if($v->about_type_id === 5)
+                                                        <li>{{ $v->title }}</li>
+                                                    @endif
+                                                @endforeach
+                                            </ul>
+
+
                                         </div>
 
 
@@ -285,207 +306,241 @@
 
                             </div>
 
-                            <div class="tab-pane" id="dropdown-pane-1" role="tabpanel" aria-labelledby="dropdown-tab-1">
 
-                                <div class="modal-info-header">
-                                    <h1>Бизнес</h1>
-                                    <p>
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="tab-pane" id="dropdown-pane-2" role="tabpanel" aria-labelledby="dropdown-tab-2">
-
-                                <div class="modal-info-header">
-                                    <h1>Доп.услуги</h1>
-                                    <p>
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-                                    </p>
-                                </div>
-
-                            </div>
                         </div>
 
 
                     @include('components.single.room_filter')
 
-                        <div class="room-wrapper container">
-                            <hr>
-                            <div class="card mb-3" style="max-width:auto">
-                                <div class="row g-0">
+                        <div>
 
-                                    <div class="col-md-4">
-                                        <!--img src="https://picsum.photos/800/300?random=1" class="mb-3 img-fluid rounded-start" alt="..."> -->
+                            @if(!count($rooms))
 
-                                        <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
-                                            <div class="carousel-indicators">
-                                                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-                                                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
-                                                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
-                                            </div>
-                                            <div class="carousel-inner">
-                                                <div class="carousel-item active">
-                                                    <img src="https://picsum.photos/800/300?random=4" class="d-block w-100" style="height: 250px;" alt="...">
-                                                </div>
-                                                <div class="carousel-item">
-                                                    <img src="https://picsum.photos/800/300?random=5" class="d-block w-100" style="height: 250px;" alt="...">
-                                                </div>
-                                                <div class="carousel-item">
-                                                    <img src="https://picsum.photos/800/300?random=6" class="d-block w-100" style="height: 250px;" alt="...">
-                                                </div>
-                                            </div>
-                                            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
-                                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                                <span class="visually-hidden">Previous</span>
-                                            </button>
-                                            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
-                                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                                <span class="visually-hidden">Next</span>
-                                            </button>
-                                        </div>
-
-                                        <div class="text-center">
-
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-8">
-                                        <div class="card-body">
-                                            <h5 class="card-title">Номер 1 </h5>
-
-                                            <ul class="nav nav-tabs" id="Card-tabs-1" role="tablist">
-                                                <li class="nav-item" role="presentation">
-                                                    <button class="nav-link active" id="title-tab-1" data-bs-toggle="tab"
-                                                            data-bs-target="#tab-1" type="button" role="tab" aria-controls="tab-1" aria-selected="true">Общее</button>
-                                                </li>
-                                                <li class="nav-item" role="presentation">
-                                                    <button class="nav-link" id="title-tab-2" data-bs-toggle="tab"
-                                                            data-bs-target="#tab-2" type="button" role="tab" aria-controls="tab-1" aria-selected="false">О номере</button>
-                                                </li>
-
-                                            </ul>
-                                            <div class="tab-content" id="Card-tabs-1-content">
-                                                <div class="tab-pane fade show active" id="tab-1" role="tabpanel" aria-labelledby="title-tab-1">
-
-                                                    <ul class="single-list">
-                                                        <li><h5>Title</h5></li>
-                                                        <li>Lorem ipsum dolor</li>
-                                                        <li>Lorem ipsum dolor Lorem ipsum dolor</li>
-                                                        <li>Lorem ipsum dolor</li>
-                                                        <li>Lorem ipsum dolor Lorem ipsum dolor</li>
-                                                        <li>Lorem ipsum dolor</li>
-                                                        <li>Lorem ipsum dolor Lorem ipsum dolor</li>
-                                                        <li>Lorem ipsum dolor</li>
-                                                    </ul>
-
-                                                </div>
-                                                <div class="tab-pane fade" id="tab-2" role="tabpanel" aria-labelledby="title-tab-2">
-                                                    <div class="row container">
+                                <h2>Пользователь пока не добавил размещения</h2>
+                            @else
 
 
-                                                        <div class="col-lg-4 col-md-4 col-sm-12 p-0">
-                                                            <h5 class="info-tab-title">Title</h5>
-                                                            <p class="info-header-text">
-                                                                Необходимые документы для заезда: Для взрослых: ваучер, паспортДля детей - свидетельство о рождении (до 14 лет), паспорт (старше 14 лет), нотариальное согласие, если ребенок едет без родителя Рекомендуем и взрослым и детям брать с собой медицинский полис. - просто текст Отмена/предоплата: правила отмены бронирования и предоплаты зависят от типа выбранного варианта. В связи с коронавирусом (COVID-19) в этом объекте размещения сейчас
-                                                            </p>
+
+                                @foreach($rooms as $room)
+
+                                    <div class="room-wrapper container">
+                                        <hr>
+                                        <div class="card mb-3" style="max-width:auto;">
+                                            <div class="row g-0">
+
+                                                <div class="col-md-4">
+                                                    <!--img src="https://picsum.photos/800/300?random=1" class="mb-3 img-fluid rounded-start" alt="..."> -->
+
+
+
+                                                    <div id="carouselExampleIndicators{{$room->id}}" class="carousel slide" data-bs-ride="carousel">
+
+                                                        <div class="carousel-indicators">
+                                                            @for($i = 0; $i<count($room->images);$i++)
+
+                                                                <button type="button" data-bs-target="#carouselExampleIndicators{{$room->id}}"
+                                                                        data-bs-slide-to="{{$i}}"
+                                                                        class="{{$i== 0 ? 'active' : '' }}"
+                                                                        aria-current="true"
+                                                                        aria-label="Slide {{$i}}">
+
+                                                                </button>
+
+                                                            @endfor
                                                         </div>
-                                                        <div class="col-lg-4 col-md-4 col-sm-12 p-0">
-                                                            <ul class="single-list">
-                                                                <li><h5>Title</h5></li>
-                                                                <li>Lorem ipsum dolor</li>
-                                                                <li>Lorem ipsum dolor Lorem ipsum dolor</li>
-                                                                <li>Lorem ipsum dolor</li>
-                                                                <li>Lorem ipsum dolor Lorem ipsum dolor</li>
-                                                                <li>Lorem ipsum dolor</li>
-                                                                <li>Lorem ipsum dolor Lorem ipsum dolor</li>
-                                                                <li>Lorem ipsum dolor</li>
-                                                            </ul>
-                                                        </div>
-                                                        <div class="col-lg-4 col-md-4 col-sm-12 p-0">
-                                                            <ul class="single-list">
-                                                                <li><h5>Title</h5></li>
-                                                                <li>Lorem ipsum dolor</li>
-                                                                <li>Lorem ipsum dolor Lorem ipsum dolor</li>
-                                                                <li>Lorem ipsum dolor</li>
-                                                                <li>Lorem ipsum dolor Lorem ipsum dolor</li>
-                                                                <li>Lorem ipsum dolor</li>
-                                                                <li>Lorem ipsum dolor Lorem ipsum dolor</li>
-                                                                <li>Lorem ipsum dolor</li>
-                                                            </ul>
+                                                        <div class="carousel-inner">
+                                                            @foreach($room->images as $key => $image)
 
-                                                            <ul class="single-list">
-                                                                <li><h5>Title</h5></li>
-                                                                <li>Lorem ipsum dolor</li>
-                                                                <li>Lorem ipsum dolor Lorem ipsum dolor</li>
-                                                            </ul>
+                                                                <div class="carousel-item {{$key == 0 ? 'active' : '' }}">
+                                                                    <img src="{{ asset("storage/{$image->link}") }}" class="d-block w-100" style="height: 250px;" alt="...">
+                                                                </div>
+
+                                                            @endforeach
                                                         </div>
 
+                                                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators{{$room->id}}" data-bs-slide="prev">
+                                                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                                            <span class="visually-hidden">Previous</span>
+                                                        </button>
+                                                        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators{{$room->id}}" data-bs-slide="next">
+                                                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                                            <span class="visually-hidden">Next</span>
+                                                        </button>
+
+                                                    </div>
 
 
+
+
+                                                    <div class="text-center">
+                                                        <div class="m-1">
+                                                            <button href="" class="btn btn-danger btn-lg">Забронировать</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-8">
+                                                    <div class="card-body">
+                                                        <h5 class="card-title"> {{ $room->title }} </h5>
+
+                                                        <ul class="nav nav-tabs" id="Card-tabs-{{$room->id}}" role="tablist">
+                                                            <li class="nav-item" role="presentation">
+                                                                <button class="nav-link active" id="title-tab-{{$room->id}}" data-bs-toggle="tab"
+                                                                        data-bs-target="#tab-{{$room->id}}" type="button" role="tab" aria-controls="tab-{{$room->id}}" aria-selected="true">Общее</button>
+                                                            </li>
+                                                            <li class="nav-item" role="presentation">
+                                                                <button class="nav-link" id="title-tab-{{$room->id}}-2" data-bs-toggle="tab"
+                                                                        data-bs-target="#tab-{{$room->id}}-2" type="button" role="tab" aria-controls="tab-{{$room->id}}-2" aria-selected="false">О номере</button>
+                                                            </li>
+
+                                                        </ul>
+                                                        <div class="tab-content" id="Card-tabs-{{$room->id}}-content">
+                                                            <div class="tab-pane fade show active" id="tab-{{$room->id}}" role="tabpanel" aria-labelledby="title-tab-{{$room->id}}">
+                                                                <div class="row container">
+                                                                    <div class="col-lg-4 col-md-4 col-sm-12 p-0">
+                                                                        <p class="info-header-text">
+                                                                            Вместимость номера:
+                                                                            @foreach($about as $k => $v)
+                                                                                @if($v->about_type_id === 2)
+                                                                                    {{ $v->title }}
+                                                                                    @break
+                                                                                @endif
+                                                                            @endforeach
+                                                                            <br>
+                                                                            Площадь номера:
+                                                                            {{$room->userFill->area}}
+                                                                            <br>
+                                                                            Количество кроватей:
+                                                                            {{$room->userFill->beds}}
+                                                                            <br>
+                                                                            Вид на:
+                                                                            @foreach($about as $k => $v)
+                                                                                @if($v->about_type_id === 3)
+                                                                                    {{ $v->title }}
+                                                                                    @break
+                                                                                @endif
+                                                                            @endforeach
+                                                                            <br>
+                                                                            Расположение ванной:
+                                                                            @foreach($about as $k => $v)
+                                                                                @if($v->about_type_id === 4)
+                                                                                    {{ $v->title }}
+                                                                                    @break
+                                                                                @endif
+                                                                            @endforeach
+                                                                            <br>
+                                                                            Расположение с/у:
+                                                                            @foreach($about as $k => $v)
+                                                                                @if($v->about_type_id === 5)
+                                                                                    {{ $v->title }}
+                                                                                    @break
+                                                                                @endif
+                                                                            @endforeach
+                                                                            <br>
+                                                                        </p>
+                                                                    </div>
+
+                                                                    <div class="col-lg-4 col-md-4 col-sm-12 p-0">
+                                                                        <ul class="single-list">
+                                                                            <li><h5> Общее о размещении</h5></li>
+                                                                            @foreach($about as $k => $v)
+                                                                                @if($v->about_type_id === 1)
+                                                                                    <li>{{ $v->title }}</li>
+                                                                                @endif
+                                                                            @endforeach
+
+
+                                                                        </ul>
+
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="tab-pane fade" id="tab-{{$room->id}}-2" role="tabpanel" aria-labelledby="title-tab-{{$room->id}}-2">
+
+                                                                <div class="row container">
+                                                                    <div class="col-lg-4 col-md-4 col-sm-12 p-0">
+                                                                        <ul class="single-list">
+                                                                            <li><h5> Удобства в номере </h5></li>
+                                                                            @foreach($about as $k => $v)
+                                                                                @if($v->about_type_id === 6)
+                                                                                    <li>{{ $v->title }}</li>
+                                                                                @endif
+                                                                            @endforeach
+
+
+                                                                        </ul>
+                                                                    </div>
+
+                                                                    <div class="col-lg-4 col-md-4 col-sm-12 p-0">
+                                                                        <ul class="single-list">
+                                                                            <li><h5> Мебель </h5></li>
+                                                                            @foreach($about as $k => $v)
+                                                                                @if($v->about_type_id === 7)
+                                                                                    <li>{{ $v->title }}</li>
+                                                                                @endif
+                                                                            @endforeach
+
+
+                                                                        </ul>
+                                                                        <ul class="single-list">
+                                                                            <li><h5> Кухня </h5></li>
+                                                                            @foreach($about as $k => $v)
+                                                                                @if($v->about_type_id === 8)
+                                                                                    <li>{{ $v->title }}</li>
+                                                                                @endif
+                                                                            @endforeach
+
+
+                                                                        </ul>
+
+                                                                    </div>
+
+                                                                    <div class="col-lg-4 col-md-4 col-sm-12 p-0">
+                                                                        <ul class="single-list">
+                                                                            <li><h5> Ванная комната </h5></li>
+                                                                            @foreach($about as $k => $v)
+                                                                                @if($v->about_type_id === 9)
+                                                                                    <li>{{ $v->title }}</li>
+                                                                                @endif
+                                                                            @endforeach
+
+                                                                            <br>
+                                                                            <li> Курение:
+                                                                                @foreach($about as $k => $v)
+                                                                                    @if($v->about_type_id === 10)
+                                                                                        {{ $v->title }}
+                                                                                        @break
+                                                                                    @endif
+                                                                                @endforeach
+                                                                            </li>
+                                                                        </ul>
+                                                                        <br>
+
+                                                                    </div>
+
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+
+
+                                                        <p class="card-text btn btn-outline-info">Цена: 2000 рублей/сутки</p>
 
                                                     </div>
 
                                                 </div>
-
-
-
-                                                <p class="card-text btn btn-outline-info">Цена: 2000 рублей/сутки</p>
-                                                <div>
-                                                    <button href="" class="btn btn-danger btn-lg">Забронировать</button>
-                                                </div>
                                             </div>
-
                                         </div>
-                                    </div>
-                                </div>
 
-                                <hr>
+                                        <hr>
 
 
 
-                            </div>
-
-
-                            <p class="mb-0">
-                                Только зарегистрированные пользователи могут оставить комментарий и оценить проживание!
-                            </p>
-
-
-
-                            <div class="container rating-form">
-                                <h2 class="mb-4">Текущаяя оценка:</h2>
-                                <div class="border p-3 rounded">
-                                    <div class="row">
-                                        <div class="col-md-3"> <label class="radio"> <input type="radio" disabled name="expDone" value="Bad Experience"> <span>Плохо</span> </label> </div>
-                                        <div class="col-md-3"> <label class="radio"> <input type="radio" disabled name="expDone" value="Good Experience"> <span>Удовлетворительно</span> </label> </div>
-                                        <div class="col-md-3"> <label class="radio"> <input type="radio" disabled name="expDone" value="Great Experience" checked> <span>Хорошо</span> </label> </div>
-                                        <div class="col-md-3"> <label class="radio"> <input type="radio" disabled name="expDone" value="Amazing Experience"> <span>Отлично</span> </label> </div>
-                                    </div>
-                                </div>
-                            </div>
-
-
-                            <div class="container rating-form">
-                                <h2 class="mb-4">Оцените проживание</h2>
-                                <div class="border p-3 rounded">
-                                    <div class="row">
-                                        <div class="col-md-3"> <label class="radio"> <input type="radio" name="experience" value="Bad Experience"> <span>Плохо</span> </label> </div>
-                                        <div class="col-md-3"> <label class="radio"> <input type="radio" name="experience" value="Good Experience"> <span>Удовлетворительно</span> </label> </div>
-                                        <div class="col-md-3"> <label class="radio"> <input type="radio" name="experience" value="Great Experience" checked> <span>Хорошо</span> </label> </div>
-                                        <div class="col-md-3"> <label class="radio"> <input type="radio" name="experience" value="Amazing Experience"> <span>Отлично</span> </label> </div>
                                     </div>
 
-                                    <div class="button mt-4 text-right"> <button class="btn btn-success submit-button">Оценить</button> </div>
-                                </div>
-                            </div>
-                            <hr>
-
-
-                            @include('components.single.comments')
-
-
-
-
+                                @endforeach
+                            @endif
                         </div>
 
                         </div>

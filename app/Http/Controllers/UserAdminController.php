@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Actions\UploadUserAvatarAction;
 use App\Http\Requests\UsersRequest;
 use App\Models\Place;
+use App\Models\RoomAbout;
 use App\Models\User;
 use App\Queries\PlaceQuery;
 use Exception;
@@ -28,12 +29,15 @@ class UserAdminController extends Controller
 
         try {
             $rooms = $place->rooms;
+            $aboutRoom = RoomAbout::all();
         } catch (Exception $e) {
             $rooms = [];
+            $aboutRoom = [];
         }
 
         return view('user.user_panel', ['user' => $user, 'place' => $place,
-            'rooms' => $rooms
+            'rooms' => $rooms,
+            'about' => $aboutRoom
         ]);
     }
 

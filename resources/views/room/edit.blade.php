@@ -167,7 +167,7 @@
                     <h2>Удобства в номере</h2>
 
                     <div class="form-group m-2">
-                        <label for="for_child"> Инфраструктура на территории: </label>
+                        <label for="for_child"> Удобства в номере: </label>
                         <select id="for_child"
                                 class="form-control"
                                 name="about_place[]"

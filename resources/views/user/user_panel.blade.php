@@ -140,12 +140,12 @@
 
 
 
-                                    <div id="carouselExampleIndicators{{$room->title}}" class="carousel slide" data-bs-ride="carousel">
+                                    <div id="carouselExampleIndicators{{$room->id}}" class="carousel slide" data-bs-ride="carousel">
 
                                         <div class="carousel-indicators">
                                             @for($i = 0; $i<count($room->images);$i++)
 
-                                                <button type="button" data-bs-target="#carouselExampleIndicators{{$room->title}}"
+                                                <button type="button" data-bs-target="#carouselExampleIndicators{{$room->id}}"
                                                     data-bs-slide-to="{{$i}}"
                                                     class="{{$i== 0 ? 'active' : '' }}"
                                                     aria-current="true"
@@ -165,11 +165,11 @@
                                             @endforeach
                                         </div>
 
-                                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators{{$room->title}}" data-bs-slide="prev">
+                                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators{{$room->id}}" data-bs-slide="prev">
                                             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                                             <span class="visually-hidden">Previous</span>
                                         </button>
-                                        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators{{$room->title}}" data-bs-slide="next">
+                                        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators{{$room->id}}" data-bs-slide="next">
                                             <span class="carousel-control-next-icon" aria-hidden="true"></span>
                                             <span class="visually-hidden">Next</span>
                                         </button>
@@ -185,40 +185,145 @@
 
                                 <div class="col-md-8">
                                     <div class="card-body">
-                                        <h5 class="card-title">Номер 1 </h5>
+                                        <h5 class="card-title"> {{ $room->title }} </h5>
 
-                                        <ul class="nav nav-tabs" id="Card-tabs-1" role="tablist">
+                                        <ul class="nav nav-tabs" id="Card-tabs-{{$room->id}}" role="tablist">
                                             <li class="nav-item" role="presentation">
-                                                <button class="nav-link active" id="title-tab-1" data-bs-toggle="tab"
-                                                        data-bs-target="#tab-1" type="button" role="tab" aria-controls="tab-1" aria-selected="true">Вкладка 1</button>
+                                                <button class="nav-link active" id="title-tab-{{$room->id}}" data-bs-toggle="tab"
+                                                        data-bs-target="#tab-{{$room->id}}" type="button" role="tab" aria-controls="tab-{{$room->id}}" aria-selected="true">Общее</button>
                                             </li>
                                             <li class="nav-item" role="presentation">
-                                                <button class="nav-link" id="title-tab-2" data-bs-toggle="tab"
-                                                        data-bs-target="#tab-2" type="button" role="tab" aria-controls="tab-1" aria-selected="false">Вкладка 2</button>
+                                                <button class="nav-link" id="title-tab-{{$room->id}}-2" data-bs-toggle="tab"
+                                                        data-bs-target="#tab-{{$room->id}}-2" type="button" role="tab" aria-controls="tab-{{$room->id}}-2" aria-selected="false">О номере</button>
                                             </li>
-                                            <li class="nav-item" role="presentation">
-                                                <button class="nav-link" id="title-tab-3" data-bs-toggle="tab"
-                                                        data-bs-target="#tab-3" type="button" role="tab" aria-controls="tab-1" aria-selected="false">Вкладка 3</button>
-                                            </li>
+
                                         </ul>
-                                        <div class="tab-content" id="Card-tabs-1-content">
-                                            <div class="tab-pane fade show active" id="tab-1" role="tabpanel" aria-labelledby="title-tab-1">
-
-                                                <p class="card-text">
-                                                    This is a wider card with supporting text below as a natural lead-in to additional content.
-                                                    This is a wider card with supporting text below as a natural lead-in to additional content.
-                                                    This is a wider card with supporting text below as a natural lead-in to additional content.
-                                                    This is a wider card with supporting text below as a natural lead-in to additional content.
-
-                                                    This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                                        <div class="tab-content" id="Card-tabs-{{$room->id}}-content">
+                                            <div class="tab-pane fade show active" id="tab-{{$room->id}}" role="tabpanel" aria-labelledby="title-tab-{{$room->id}}">
+                                                <div class="row container">
+                                                <div class="col-lg-4 col-md-4 col-sm-12 p-0">
+                                                <p class="info-header-text">
+                                                Вместимость номера:
+                                                @foreach($about as $k => $v)
+                                                    @if($v->about_type_id === 2)
+                                                        {{ $v->title }}
+                                                    @break
+                                                        @endif
+                                                        @endforeach
+                                                            <br>
+                                                Площадь номера:
+                                                 {{$room->userFill->area}}
+                                                <br>
+                                                Количество кроватей:
+                                                 {{$room->userFill->beds}}
+                                                <br>
+                                                Вид на:
+                                                @foreach($about as $k => $v)
+                                                    @if($v->about_type_id === 3)
+                                                        {{ $v->title }}
+                                                        @break
+                                                    @endif
+                                                @endforeach
+                                                <br>
+                                                Расположение ванной:
+                                                @foreach($about as $k => $v)
+                                                    @if($v->about_type_id === 4)
+                                                        {{ $v->title }}
+                                                        @break
+                                                    @endif
+                                                @endforeach
+                                                <br>
+                                                Расположение с/у:
+                                                @foreach($about as $k => $v)
+                                                    @if($v->about_type_id === 5)
+                                                        {{ $v->title }}
+                                                        @break
+                                                    @endif
+                                                @endforeach
+                                                <br>
                                                 </p>
+                                                </div>
 
+                                                <div class="col-lg-4 col-md-4 col-sm-12 p-0">
+                                                    <ul class="single-list">
+                                                        <li><h5> Общее о размещении</h5></li>
+                                                        @foreach($about as $k => $v)
+                                                            @if($v->about_type_id === 1)
+                                                                <li>{{ $v->title }}</li>
+                                                            @endif
+                                                        @endforeach
+
+
+                                                    </ul>
+
+                                                </div>
+                                                </div>
                                             </div>
-                                            <div class="tab-pane fade" id="tab-2" role="tabpanel" aria-labelledby="title-tab-2">This is a wider card with supporting text below as a natural lead-in to additional content.
-                                                This is a wider card with supporting text below as a natural lead-in to additional content.
-                                                This is a wider card with supporting text below as a natural lead-in to additional content.
-                                                This is a wider card with supporting text below as a natural lead-in to additional content. </div>
-                                            <div class="tab-pane fade" id="tab-3" role="tabpanel" aria-labelledby="title-tab-3">This is a wider card with supporting text below as a natural lead-in to additional content.
+                                            <div class="tab-pane fade" id="tab-{{$room->id}}-2" role="tabpanel" aria-labelledby="title-tab-{{$room->id}}-2">
+
+                                                <div class="row container">
+                                                    <div class="col-lg-4 col-md-4 col-sm-12 p-0">
+                                                        <ul class="single-list">
+                                                            <li><h5> Удобства в номере </h5></li>
+                                                            @foreach($about as $k => $v)
+                                                                @if($v->about_type_id === 6)
+                                                                    <li>{{ $v->title }}</li>
+                                                                @endif
+                                                            @endforeach
+
+
+                                                        </ul>
+                                                    </div>
+
+                                                    <div class="col-lg-4 col-md-4 col-sm-12 p-0">
+                                                        <ul class="single-list">
+                                                            <li><h5> Мебель </h5></li>
+                                                            @foreach($about as $k => $v)
+                                                                @if($v->about_type_id === 7)
+                                                                    <li>{{ $v->title }}</li>
+                                                                @endif
+                                                            @endforeach
+
+
+                                                        </ul>
+                                                        <ul class="single-list">
+                                                            <li><h5> Кухня </h5></li>
+                                                            @foreach($about as $k => $v)
+                                                                @if($v->about_type_id === 8)
+                                                                    <li>{{ $v->title }}</li>
+                                                                @endif
+                                                            @endforeach
+
+
+                                                        </ul>
+
+                                                    </div>
+
+                                                    <div class="col-lg-4 col-md-4 col-sm-12 p-0">
+                                                        <ul class="single-list">
+                                                            <li><h5> Ванная комната </h5></li>
+                                                            @foreach($about as $k => $v)
+                                                                @if($v->about_type_id === 9)
+                                                                    <li>{{ $v->title }}</li>
+                                                                @endif
+                                                            @endforeach
+
+                                                            <br>
+                                                            <li> Курение:
+                                                                @foreach($about as $k => $v)
+                                                                    @if($v->about_type_id === 10)
+                                                                        {{ $v->title }}
+                                                                        @break
+                                                                    @endif
+                                                                @endforeach
+                                                            </li>
+                                                        </ul>
+                                                        <br>
+
+                                                    </div>
+
+
+                                                </div>
                                             </div>
                                         </div>
 

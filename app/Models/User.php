@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use ErrorException;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -63,5 +64,16 @@ class User extends Authenticatable
     public function rooms()
     {
         return $this->hasMany(Vote::class);
+    }
+
+    public function hasUserVote(int $userId, int $placeId)
+    {
+        $vote = Vote::where('user_id','=',$userId)->where('place_id','=',$placeId)->get();
+        try {
+            $vote[0]->id;
+            return false;
+        } catch (ErrorException $e) {
+            return true;
+        }
     }
 }

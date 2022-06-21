@@ -17,6 +17,12 @@ Route::get('/', [\App\Http\Controllers\MainController::class, 'index'])->name('m
 Route::get('/place/{id}', [\App\Http\Controllers\PlaceController::class, 'show'])->name('placeSingle');
 Route::get('/filter', [\App\Http\Controllers\MainController::class, 'filtering'])->name('filtering');
 
+Route::group(['middleware' => ['auth']], function () {
+
+    Route::post('/store-rating/{userId}/{placeId}', [\App\Http\Controllers\StateController::class, 'storeRating'])->name('ratingStore');
+    Route::post('/store-comment/{userId}/{placeId}', [\App\Http\Controllers\CommentController::class, 'store'])->name('commentStore');
+
+});
 
 Route::group(['prefix' => 'user', 'middleware' => ['auth']], function () {
     Route::get('/', [\App\Http\Controllers\UserAdminController::class, 'index'])->name('userPanel');

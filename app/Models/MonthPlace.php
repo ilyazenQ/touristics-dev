@@ -5,20 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Vote extends Model
+class MonthPlace extends Model
 {
     use HasFactory;
     protected $guarded = [];
-    public $timestamps = false;
+    protected $table="months_places";
 
     public function place()
     {
-        return $this->belongsTo(Place::class);
+        return $this->belongsTo(Room::class);
     }
-
-    public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
-
 }

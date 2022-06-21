@@ -13,33 +13,37 @@ class UpdateMonthRoomAction
     {
         foreach ($data['months'] as $title => $month) {
 
+
+
             if (in_array($title, $room->months->pluck('title')->all())) {
+
 
                 $roomMonth = RoomMonth::FindByTitleAndRoom($title, $room->id);
                 $roomMonth = RoomMonth::findOrFail($roomMonth->id);
 
                 if ((count($month) == 2 && !is_null($month['price']))) {
+                    $monthDB = Month::findOrFail($month["id"]);
                     $roomMonth->update([
                         'price' => $month['price']
                     ]);
+                    SaveOrUpdateMonthPlaceAction::execute($month, $room, $monthDB);
                 } elseif (count($month) == 1 || (count($month) == 2 && is_null($month['price']))) {
-
+                    UpdateOrDeleteMonthPlaceAction::execute($room, $roomMonth->month_id);
                     $roomMonth->delete();
 
                 }
             } elseif (isset($month["id"]) && !is_null($month["price"])) {
+                $monthDB = Month::findOrFail($month["id"]);
 
-                $monthTitle = Month::findOrFail($month["id"]);
-
-                    $roomMonth = RoomMonth::create([
-                        'title' => $monthTitle->title,
-                        'month_id' => $month['id'],
-                        'room_id' => $room->id,
-                        'price' => $month['price'],
-                    ]);
-
-                    $roomMonth->save();
-                }
+                $roomMonth = RoomMonth::create([
+                    'title' => $monthDB->title,
+                    'month_id' => $month['id'],
+                    'room_id' => $room->id,
+                    'price' => $month['price'],
+                ]);
+                SaveOrUpdateMonthPlaceAction::execute($month, $room, $monthDB);
+                $roomMonth->save();
+            }
         }
     }
 

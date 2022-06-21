@@ -65,6 +65,11 @@ class Place extends Model
         return $this->hasOne(UserFillAboutPlace::class);
     }
 
+    public function months()
+    {
+        return $this->hasMany(MonthPlace::class);
+    }
+
     public function getReadableRating(int $rating)
     {
         switch ($rating) {

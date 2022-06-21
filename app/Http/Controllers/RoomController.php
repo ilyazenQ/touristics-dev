@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Actions\DestroyRoomImagesAction;
+use App\Actions\UpdatePlacePriceAction;
 use App\Actions\UpdateRoomAndReferencesAction;
 use App\Actions\UploadRoomAction;
 use App\Actions\UploadRoomImagesAction;
@@ -42,7 +43,8 @@ class RoomController extends Controller
         ]);
 
        $room =  UploadRoomAction::execute($data, $request);
-//
+        UpdatePlacePriceAction::execute($room);
+
        return redirect()->route('roomCreateImages', $room->id);
     }
 
@@ -79,6 +81,7 @@ class RoomController extends Controller
         ]);
 
         UpdateRoomAndReferencesAction::execute($data, $request, $room);
+        UpdatePlacePriceAction::execute($room);
 
         return redirect()->route('userPanel')->with('success', "Размещение $room->title успешно обновлено!");
 

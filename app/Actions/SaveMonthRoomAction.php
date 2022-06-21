@@ -13,14 +13,20 @@ class SaveMonthRoomAction
     {
         foreach ($data['months'] as $month) {
             if (isset($month["id"]) && !is_null($month["price"])) {
-                $monthTitle = Month::findOrFail($month["id"]);
+                $monthDB= Month::findOrFail($month["id"]);
+
+                $monthDB->count += 1;
+
+                $monthDB->save();
 
                 $roomMonth = RoomMonth::create([
-                    'title' => $monthTitle->title,
+                    'title' => $monthDB->title,
                     'month_id' => $month['id'],
                     'room_id' => $room->id,
                     'price' => $month['price'],
                 ]);
+
+                SaveOrUpdateMonthPlaceAction::execute($month,$room,$monthDB);
 
                 $roomMonth->save();
             }

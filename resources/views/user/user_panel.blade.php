@@ -88,7 +88,7 @@
                                     <a href="#" class="h4 font-bolder mb-0">{{ count($place->comments) }}
                                     </a> <span class="d-block text-sm">Комментариев</span> </div>
                                 <div class="col-4 text-center">
-                                    <a href="#" class="h4 font-bolder mb-0">{{ $place->rating }}</a> <span class="d-block text-sm">Оценка</span> </div>
+                                    <a href="#" class="h4 font-bolder mb-0">{{ $place->getReadableRating($place->rating) }}</a> <span class="d-block text-sm">Оценка</span> </div>
                             </div>
 
                             <div class="text-center mt-2">

@@ -4,12 +4,14 @@
         @include('components.main.header')
 
         @include('components.main.filter_params')
+        @include('components.error_and_success')
         <div id="modal-window" class="shadow container">
 
             <div class="main-modal">
                 <div class="modal-left">
 
                     @include('components.single.place_header')
+
 
 
                     <div class="info-bar">
@@ -308,14 +310,17 @@
 
 
                         </div>
+                        <hr>
 
-
+                        @if(count($rooms))
                     @include('components.single.room_filter')
+                        @endif
 
                         <div class="room-wrapper container">
                             @if(!count($rooms))
 
                                 <h2 class="m-1">Пока нет активных размещений</h2>
+                                <hr>
                             @else
 
 
@@ -545,10 +550,14 @@
                                 @endforeach
                             @endif
 
-
+                            @guest
                             <p class="mb-0">
                                 Только зарегистрированные пользователи могут оставить комментарий и оценить проживание!
+
                             </p>
+                                    <hr>
+
+                                @endguest
 
 
 
@@ -556,28 +565,33 @@
                                 <h2 class="mb-4">Текущаяя оценка:</h2>
                                 <div class="border p-3 rounded">
                                     <div class="row">
-                                        <div class="col-md-3"> <label class="radio"> <input type="radio" disabled name="expDone" value="Bad Experience"> <span>Плохо</span> </label> </div>
-                                        <div class="col-md-3"> <label class="radio"> <input type="radio" disabled name="expDone" value="Good Experience"> <span>Удовлетворительно</span> </label> </div>
-                                        <div class="col-md-3"> <label class="radio"> <input type="radio" disabled name="expDone" value="Great Experience" checked> <span>Хорошо</span> </label> </div>
-                                        <div class="col-md-3"> <label class="radio"> <input type="radio" disabled name="expDone" value="Amazing Experience"> <span>Отлично</span> </label> </div>
+                                        @for($i=1; $i<=4; $i++)
+                                            <div class="col-md-3"> <label class="radio"> <input type="radio" disabled name="expDone" value="{{ $i }}" @if($i == $place->rating) checked @endif> <span>{{ $place->getReadableRating($i) }}</span> </label> </div>
+                                        @endfor
                                     </div>
                                 </div>
                             </div>
 
+                                @auth
+                                    @if(Auth::user()->hasUserVote(Auth::user()->id, $place->id))
+                                    <form method="post" action="{{ route("ratingStore", ['userId' => Auth::user()->id,'placeId' => $place->id ]) }}" class="container rating-form">
+                                        @csrf
+                                        @method("POST")
+                                        <h2 class="mb-4">Оцените проживание</h2>
+                                        <div class="border p-3 rounded">
+                                            <div class="row">
+                                                @for($i=1; $i<=4; $i++)
+                                                <div class="col-md-3"> <label class="radio"> <input type="radio" name="experience" value="{{ $i }}"> <span>{{ $place->getReadableRating($i) }}</span> </label> </div>
+                                                @endfor
+                                            </div>
 
-                            <div class="container rating-form">
-                                <h2 class="mb-4">Оцените проживание</h2>
-                                <div class="border p-3 rounded">
-                                    <div class="row">
-                                        <div class="col-md-3"> <label class="radio"> <input type="radio" name="experience" value="Bad Experience"> <span>Плохо</span> </label> </div>
-                                        <div class="col-md-3"> <label class="radio"> <input type="radio" name="experience" value="Good Experience"> <span>Удовлетворительно</span> </label> </div>
-                                        <div class="col-md-3"> <label class="radio"> <input type="radio" name="experience" value="Great Experience" checked> <span>Хорошо</span> </label> </div>
-                                        <div class="col-md-3"> <label class="radio"> <input type="radio" name="experience" value="Amazing Experience"> <span>Отлично</span> </label> </div>
-                                    </div>
 
-                                    <div class="button mt-4 text-right"> <button class="btn btn-success submit-button">Оценить</button> </div>
-                                </div>
-                            </div>
+                                            <div class="button mt-4 text-right"> <button type="submit" class="btn btn-success submit-button">Оценить</button> </div>
+                                        </div>
+                                    </form>
+                                        @endif
+                                @endauth
+
                             <hr>
 
 

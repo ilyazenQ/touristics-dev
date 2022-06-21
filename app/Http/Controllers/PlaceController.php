@@ -12,6 +12,7 @@ use App\Models\Location;
 use App\Models\Place;
 use App\Models\RoomAbout;
 use App\Models\Type;
+use Exception;
 use Illuminate\Http\Request;
 
 
@@ -23,11 +24,13 @@ class PlaceController extends Controller
         $place = Place::findOrFail($id);
         $about = $place->abouts;
         try {
+            $comments = $place->comments;
             $rooms = $place->rooms;
             $aboutRoom = RoomAbout::all();
         } catch (Exception $e) {
             $rooms = [];
             $aboutRoom = [];
+            $comments = [];
         }
         return view(
             'single',
@@ -36,6 +39,7 @@ class PlaceController extends Controller
                 'rooms' => $rooms,
                 'aboutRoom' => $aboutRoom,
                 'about' => $about,
+                'comments' => $comments
             ]
         );
     }

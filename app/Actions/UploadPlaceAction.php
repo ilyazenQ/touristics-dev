@@ -17,6 +17,7 @@ class UploadPlaceAction
             'user_fill' => $userFillStored,
             'state' => $stateStored
         ];
+        UpdateTypeAndLocationCountAction::execute($data);
 
         $placeStored = SavePlaceAction::execute($data, $referencesValues, $request);
 

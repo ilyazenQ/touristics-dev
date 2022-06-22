@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 
 class Place extends Model
 {
@@ -90,4 +91,10 @@ class Place extends Model
                 break;
         }
     }
+    public function scopePlaceInMonth(Builder $query, string $monthID): Builder
+    {
+        $placeIDs = MonthPlace::where('month_id','=',$monthID)->get()->pluck('place_id')->toArray();
+        return $query->whereIn('id', $placeIDs);
+    }
+
 }

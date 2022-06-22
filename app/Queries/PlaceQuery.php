@@ -12,7 +12,7 @@ class PlaceQuery extends QueryBuilder
     {
 
         $query = Place::query()->with('type','location', 'images');
-
+//        dd($query);
         parent::__construct($query);
 
         $this->allowedSorts(['id', 'price']);
@@ -22,6 +22,8 @@ class PlaceQuery extends QueryBuilder
         ]);
 
         $this->allowedFilters([
+
+            AllowedFilter::scope('place_in_month'),
             AllowedFilter::exact('id'),
             AllowedFilter::exact('price'),
             AllowedFilter::exact('type_id'),

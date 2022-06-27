@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\SaveFiltersInSessionAction;
 use App\Filters\PlaceFilter;
 use App\Models\Location;
 use App\Models\Month;
@@ -19,23 +20,33 @@ class MainController extends Controller
         $months = Month::where('count', '>', 0)->get();
         $locations = Location::where('count', '>', 0)->get();
 
+        SaveFiltersInSessionAction::execute($request);
+
+        $session = $request->session()->all();
+
         return view('main',
             [
                 'places' => $places,
                 'months' => $months,
                 'locations' => $locations,
+                'session' => $session,
             ]);
     }
 
     public function filtering(Request $request)
     {
-       $places = (new PlaceQuery())->paginate()->appends(request()->query());
+        $places = (new PlaceQuery())->paginate()->appends(request()->query());
         $months = Month::where('count', '>', 0)->get();
         $locations = Location::where('count', '>', 0)->get();
-        return view('filterResult',  [
+
+        SaveFiltersInSessionAction::execute($request);
+
+        $session = $request->session()->all();
+        return view('filterResult', [
             'places' => $places,
             'months' => $months,
             'locations' => $locations,
+            'session' => $session,
         ]);
     }
 

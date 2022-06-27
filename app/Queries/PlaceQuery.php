@@ -12,7 +12,7 @@ class PlaceQuery extends QueryBuilder
     {
 
         $query = Place::query()->with('type','location', 'images');
-//        dd($query);
+
         parent::__construct($query);
 
         $this->allowedSorts(['id', 'price']);
@@ -33,6 +33,7 @@ class PlaceQuery extends QueryBuilder
         ]);
 
         $this->defaultSort('id');
+
     }
 
 

@@ -22,7 +22,7 @@
                                         id="location" name='filter[location_id]'>
                                     <option value="">Все направления</option>
                                 @foreach($locations as $location)
-                                    <option value="{{ $location->id }}">{{ $location->title }}</option>
+                                    <option value="{{ $location->id }}" @if($session['filter'] && $session['filter']['location_id'] == $location->id) selected @endif>{{ $location->title }}</option>
                                     @endforeach
 
                                 </select>
@@ -32,7 +32,9 @@
                                         id="month" name="filter[place_in_month]">
                                     <option value="">Любой месяц</option>
                                     @foreach($months as $month)
-                                        <option value="{{ $month->id }}">{{ $month->title }}</option>
+                                        <option value="{{ $month->id }}" @if($session['filter']  && $session['filter']['place_in_month'] == $month->id)
+                                            selected
+                                            @endif>{{ $month->title }}</option>
                                     @endforeach
 
                                 </select>

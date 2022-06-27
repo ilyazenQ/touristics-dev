@@ -61,6 +61,23 @@
             </div>
         </section>
 
+        <script>
+            let filterLine = document.querySelector("div.filter-line");
+            let sel = document.querySelectorAll('select')
+            sel.forEach((el) => {
+                let options =  el.getElementsByTagName('option');
+                for (let i = 0; i < options.length; i++) {
+                    if (options[i].selected) {
+                        let elem = document.createElement("button");
+                        elem.classList.add('filter-btn')
+                        let elemText = document.createTextNode(options[i].innerHTML);
+                        elem.appendChild(elemText);
+                        filterLine.appendChild(elem);
+                    }
+                }
+
+            })
+        </script>
 @endsection
 
 

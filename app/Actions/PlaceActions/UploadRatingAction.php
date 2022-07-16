@@ -1,8 +1,7 @@
 <?php
 
-namespace App\Actions;
+namespace App\Actions\PlaceActions;
 
-use App\Actions\PlaceActions\UpdatePlaceRatingAction;
 use App\Models\Vote;
 
 class UploadRatingAction

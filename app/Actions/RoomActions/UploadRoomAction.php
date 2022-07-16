@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Actions;
+namespace App\Actions\RoomActions;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;

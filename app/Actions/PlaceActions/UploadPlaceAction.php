@@ -2,11 +2,7 @@
 
 namespace App\Actions\PlaceActions;
 
-use App\Actions\SavePlaceAction;
-use App\Actions\SaveSocialNetworkAction;
-use App\Actions\SaveStateAction;
-use App\Actions\SaveUserFillPlaceAction;
-use App\Actions\UpdateTypeAndLocationCountAction;
+use App\Actions\StateActions\SaveStateAction;
 use Illuminate\Http\Request;
 
 class UploadPlaceAction

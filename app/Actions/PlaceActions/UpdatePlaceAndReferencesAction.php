@@ -2,8 +2,6 @@
 
 namespace App\Actions\PlaceActions;
 
-use App\Actions\UpdateSocialNetworkAction;
-use App\Actions\UpdateUserFillPlaceAction;
 use App\Models\Place;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;

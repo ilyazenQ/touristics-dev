@@ -2,12 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Actions\UploadUserAvatarAction;
-use App\Http\Requests\UsersRequest;
-use App\Models\Place;
+use App\Actions\UserActions\UploadUserAvatarAction;
 use App\Models\RoomAbout;
 use App\Models\User;
-use App\Queries\PlaceQuery;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -19,7 +16,6 @@ class UserAdminController extends Controller
     public function index()
     {
         $user = Auth::user();
-
 
         try {
             $place = $user->place;

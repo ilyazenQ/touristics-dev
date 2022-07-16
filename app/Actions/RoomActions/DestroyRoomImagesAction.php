@@ -1,8 +1,7 @@
 <?php
 
-namespace App\Actions;
+namespace App\Actions\RoomActions;
 
-use App\Models\Room;
 use App\Models\RoomImage;
 use Illuminate\Support\Facades\Storage;
 

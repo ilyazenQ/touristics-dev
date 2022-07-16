@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Actions;
+namespace App\Actions\RoomActions;
 
 use App\Models\Room;
 use Illuminate\Http\Request;

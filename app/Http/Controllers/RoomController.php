@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Actions\DestroyRoomImagesAction;
 use App\Actions\PlaceActions\UpdatePlacePriceAction;
-use App\Actions\UpdateRoomAndReferencesAction;
-use App\Actions\UploadRoomAction;
-use App\Actions\UploadRoomImagesAction;
+use App\Actions\RoomActions\DestroyRoomImagesAction;
+use App\Actions\RoomActions\UpdateRoomAndReferencesAction;
+use App\Actions\RoomActions\UploadRoomAction;
+use App\Actions\RoomActions\UploadRoomImagesAction;
 use App\Models\Month;
 use App\Models\Place;
 use App\Models\Room;

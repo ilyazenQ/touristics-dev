@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Actions;
+namespace App\Actions\RoomActions;
 
+use App\Actions\PlaceActions\SaveOrUpdateMonthPlaceAction;
 use App\Actions\PlaceActions\UpdateOrDeleteMonthPlaceAction;
 use App\Models\Month;
 use App\Models\Room;

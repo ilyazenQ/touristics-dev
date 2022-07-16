@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Actions;
+namespace App\Actions\PlaceActions;
 
+use App\Actions\RoomActions\FindLowestRoomPriceAction;
 use App\Models\MonthPlace;
-use App\Models\Place;
 use App\Models\Room;
 use ErrorException;
 

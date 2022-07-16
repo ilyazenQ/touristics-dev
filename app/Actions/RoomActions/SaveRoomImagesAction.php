@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Actions;
+namespace App\Actions\RoomActions;
 
-use App\Models\Room;
+use App\Actions\StoreImagesAction;
 use App\Models\RoomImage;
 use Illuminate\Http\Request;
 

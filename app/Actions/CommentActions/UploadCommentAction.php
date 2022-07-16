@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Actions;
+namespace App\Actions\CommentActions;
 
 use App\Models\Comment;
 use App\Models\Place;

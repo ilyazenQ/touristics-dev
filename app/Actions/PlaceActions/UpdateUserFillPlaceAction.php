@@ -1,9 +1,8 @@
 <?php
 
-namespace App\Actions;
+namespace App\Actions\PlaceActions;
 
 use App\Models\Place;
-use App\Models\User;
 use App\Models\UserFillAboutPlace;
 
 class UpdateUserFillPlaceAction

@@ -1,7 +1,12 @@
 <?php
 
-namespace App\Actions;
+namespace App\Actions\PlaceActions;
 
+use App\Actions\SavePlaceAction;
+use App\Actions\SaveSocialNetworkAction;
+use App\Actions\SaveStateAction;
+use App\Actions\SaveUserFillPlaceAction;
+use App\Actions\UpdateTypeAndLocationCountAction;
 use Illuminate\Http\Request;
 
 class UploadPlaceAction

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -46,5 +47,11 @@ class Room extends Model
         return $this->hasMany(RoomMonth::class);
     }
 
+    public function scopePlaceInMonth(Builder $query, string $monthID): Builder
+    {
+        $placeID = request()->session()->get('place_id');
+        $roomIDs = RoomMonth::where('month_id','=',$monthID)->where('place_id','=',$placeID)->get()->pluck('room_id')->toArray();
+        return $query->whereIn('id', $roomIDs);
+    }
 
 }

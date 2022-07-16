@@ -18,7 +18,7 @@ class SaveOrUpdateMonthPlaceAction
         try {
             $placeMonth[0]->id;
             $rooms = Room::where('place_id', '=', $room->place_id)->pluck('id');
-            $lowestPrice = FindLowestRoomPriceAction::execute($rooms,$month->id,$data['price']);
+            $lowestPrice = FindLowestRoomPriceAction::execute($rooms, $data['price']);
             $placeMonth[0]->price = $lowestPrice;
             $placeMonth[0]->save();
 

@@ -2,6 +2,7 @@
 
 namespace App\Actions;
 
+use App\Actions\PlaceActions\UpdateOrDeleteMonthPlaceAction;
 use App\Models\Month;
 use App\Models\Room;
 use App\Models\RoomMonth;
@@ -13,10 +14,7 @@ class UpdateMonthRoomAction
     {
         foreach ($data['months'] as $title => $month) {
 
-
-
             if (in_array($title, $room->months->pluck('title')->all())) {
-
 
                 $roomMonth = RoomMonth::FindByTitleAndRoom($title, $room->id);
                 $roomMonth = RoomMonth::findOrFail($roomMonth->id);

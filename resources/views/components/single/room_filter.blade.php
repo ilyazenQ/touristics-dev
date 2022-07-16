@@ -17,35 +17,34 @@
 <div class="container mb-3">
 
 
-    <form action="#" method="post" novalidate="novalidate">
+    <form action="{{route('roomFilter',$place->id)}}" method="get" novalidate="novalidate">
         <div class="row">
 
             <div class="row">
 
                 <div class="col-lg-3 col-md-3 col-sm-12 p-0">
-                    <select class="form-select search-slt" id="exampleFormControlSelect1">
-                        <option>Select Drop City</option>
-                        <option>Example one</option>
-                        <option>Example one</option>
-                        <option>Example one</option>
-                        <option>Example one</option>
-                        <option>Example one</option>
-                        <option>Example one</option>
+                    <select class="form-select search-slt"
+                            id="month" name="filter[place_in_month]">
+                        <option value="">Любой месяц</option>
+                        @foreach($months as $month)
+                            <option value="{{ $month->id }}" @if($session['filter'] && $session['filter']['place_in_month'] == $month->id) selected @endif>{{ $month->title }}</option>
+                        @endforeach
+
                     </select>
                 </div>
+{{--                <div class="col-lg-3 col-md-3 col-sm-12 p-0">--}}
+{{--                    <select class="form-select search-slt" id="exampleFormControlSelect1">--}}
+{{--                        <option>Select Vehicle</option>--}}
+{{--                        <option>Example one</option>--}}
+{{--                        <option>Example one</option>--}}
+{{--                        <option>Example one</option>--}}
+{{--                        <option>Example one</option>--}}
+{{--                        <option>Example one</option>--}}
+{{--                        <option>Example one</option>--}}
+{{--                    </select>--}}
+{{--                </div>--}}
                 <div class="col-lg-3 col-md-3 col-sm-12 p-0">
-                    <select class="form-select search-slt" id="exampleFormControlSelect1">
-                        <option>Select Vehicle</option>
-                        <option>Example one</option>
-                        <option>Example one</option>
-                        <option>Example one</option>
-                        <option>Example one</option>
-                        <option>Example one</option>
-                        <option>Example one</option>
-                    </select>
-                </div>
-                <div class="col-lg-3 col-md-3 col-sm-12 p-0">
-                    <button type="button" class="btn btn-primary wrn-btn">Search</button>
+                    <button type="submit" class="btn btn-primary wrn-btn">Search</button>
                 </div>
             </div>
         </div>

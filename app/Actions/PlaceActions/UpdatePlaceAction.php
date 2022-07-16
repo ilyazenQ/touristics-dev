@@ -1,10 +1,9 @@
 <?php
 
-namespace App\Actions;
+namespace App\Actions\PlaceActions;
 
 use App\Models\Place;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
 class UpdatePlaceAction

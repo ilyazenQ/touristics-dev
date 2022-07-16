@@ -197,7 +197,7 @@
                                 @if($v->about_type_id === 1)
                                     <option value="{{ $v->id }}"
                                             @if(in_array($v->id, $place->abouts->pluck('id')->all())) selected @endif
-                                    </option>
+                                    > </option>
                                 @endif
                             @endforeach
                         </select>

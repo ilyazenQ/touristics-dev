@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Actions;
+namespace App\Actions\PlaceActions;
 
 use App\Models\ImagePlace;
 use App\Models\Place;

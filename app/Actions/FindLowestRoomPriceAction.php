@@ -7,10 +7,10 @@ use App\Models\RoomMonth;
 
 class FindLowestRoomPriceAction
 {
-    static function execute($rooms,$monthId, $inputPrice)
+    static function execute($rooms, $inputPrice)
     {
         $lowPrice = $inputPrice;
-        $price = min(RoomMonth::whereIn('room_id',$rooms)->where('month_id','=',$monthId)->pluck('price')->toArray());
+        $price = min(RoomMonth::whereIn('room_id',$rooms)->pluck('price')->toArray());
         if($price < $lowPrice) {
             $lowPrice = $price;
         }

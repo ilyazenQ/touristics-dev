@@ -2,6 +2,7 @@
 
 namespace App\Actions;
 
+use App\Actions\PlaceActions\UpdatePlaceRatingAction;
 use App\Models\Vote;
 
 class UploadRatingAction

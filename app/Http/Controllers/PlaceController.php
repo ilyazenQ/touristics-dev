@@ -3,12 +3,13 @@
 namespace App\Http\Controllers;
 
 
-use App\Actions\DestroyPlaceImageAction;
-use App\Actions\UpdatePlaceAndReferencesAction;
-use App\Actions\UploadPlaceImagesAction;
-use App\Actions\UploadPlaceAction;
+use App\Actions\PlaceActions\DestroyPlaceImageAction;
+use App\Actions\PlaceActions\UpdatePlaceAndReferencesAction;
+use App\Actions\PlaceActions\UploadPlaceAction;
+use App\Actions\PlaceActions\UploadPlaceImagesAction;
 use App\Models\AboutPlace;
 use App\Models\Location;
+use App\Models\Month;
 use App\Models\Place;
 use App\Models\RoomAbout;
 use App\Models\Type;
@@ -23,6 +24,9 @@ class PlaceController extends Controller
     {
         $place = Place::findOrFail($id);
         $about = $place->abouts;
+        $months = Month::all();
+        $session = request()->session()->all();
+        request()->session()->put('place_id', $id);
         try {
             $comments = $place->comments;
             $rooms = $place->rooms;
@@ -39,6 +43,8 @@ class PlaceController extends Controller
                 'rooms' => $rooms,
                 'aboutRoom' => $aboutRoom,
                 'about' => $about,
+                'months' => $months,
+                'session' => $session,
                 'comments' => $comments
             ]
         );

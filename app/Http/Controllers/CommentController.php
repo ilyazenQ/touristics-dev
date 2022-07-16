@@ -39,7 +39,7 @@ class CommentController extends Controller
         $data = $request->all();
 
         $request->validate([
-            'body' => 'required|string',
+            'body' => 'required|string|max:60000',
         ]);
 
         UploadCommentAction::execute($data, $userId, $placeId);

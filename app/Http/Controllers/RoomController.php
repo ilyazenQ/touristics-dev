@@ -3,14 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Actions\DestroyRoomImagesAction;
-use App\Actions\UpdatePlacePriceAction;
+use App\Actions\PlaceActions\UpdatePlacePriceAction;
 use App\Actions\UpdateRoomAndReferencesAction;
 use App\Actions\UploadRoomAction;
 use App\Actions\UploadRoomImagesAction;
 use App\Models\Month;
+use App\Models\Place;
 use App\Models\Room;
 use App\Models\RoomAbout;
 use App\Models\RoomType;
+use App\Queries\RoomQuery;
+use Exception;
 use Illuminate\Http\Request;
 
 class RoomController extends Controller
@@ -42,10 +45,10 @@ class RoomController extends Controller
             'area' => 'required|string',
         ]);
 
-       $room =  UploadRoomAction::execute($data, $request);
+        $room = UploadRoomAction::execute($data, $request);
         UpdatePlacePriceAction::execute($room);
 
-       return redirect()->route('roomCreateImages', $room->id);
+        return redirect()->route('roomCreateImages', $room->id);
     }
 
     public function edit(int $id)
@@ -129,6 +132,35 @@ class RoomController extends Controller
         $roomID = DestroyRoomImagesAction::execute($imageId);
 
         return redirect()->route('roomImagesEdit', $roomID)->with('success', 'Успешно удалено');
+    }
+
+    public function roomFilter(int $id)
+    {
+        $place = Place::findOrFail($id);
+        $about = $place->abouts;
+        $session = request()->session()->all();
+        $months = Month::all();
+        try {
+            $comments = $place->comments;
+            $rooms = new RoomQuery(request()->query());
+            $aboutRoom = RoomAbout::all();
+        } catch (Exception $e) {
+            $rooms = [];
+            $aboutRoom = [];
+            $comments = [];
+        }
+        return view(
+            'single',
+            [
+                'place' => $place,
+                'rooms' => $rooms,
+                'aboutRoom' => $aboutRoom,
+                'about' => $about,
+                'months' => $months,
+                'session' => $session,
+                'comments' => $comments
+            ]
+        );
     }
 
 }

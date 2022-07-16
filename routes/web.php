@@ -15,6 +15,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [\App\Http\Controllers\MainController::class, 'index'])->name('main');
 Route::get('/place/{id}', [\App\Http\Controllers\PlaceController::class, 'show'])->name('placeSingle');
+Route::get('/place/{id}/filter', [\App\Http\Controllers\RoomController::class, 'roomFilter'])->name('roomFilter');
+
 Route::get('/filter-result', [\App\Http\Controllers\MainController::class, 'filtering'])->name('filtering');
 
 Route::group(['middleware' => ['auth']], function () {

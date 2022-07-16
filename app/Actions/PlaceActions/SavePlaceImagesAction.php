@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Actions;
+namespace App\Actions\PlaceActions;
 
 
+use App\Actions\StoreImagesAction;
 use App\Models\ImagePlace;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;

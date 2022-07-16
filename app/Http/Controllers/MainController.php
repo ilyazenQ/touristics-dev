@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Actions\SaveFiltersInSessionAction;
-use App\Filters\PlaceFilter;
 use App\Models\Location;
 use App\Models\Month;
 use App\Models\Place;

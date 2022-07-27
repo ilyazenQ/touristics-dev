@@ -73,13 +73,15 @@ class PlaceController extends Controller
         $locations = Location::all();
         $types = Type::all();
         $aboutPlace = AboutPlace::all();
+        $months = Month::all();
 
         return view(
             'place.create',
             [
                 'locations' => $locations,
                 'types' => $types,
-                'about' => $aboutPlace
+                'about' => $aboutPlace,
+                'months' => $months,
             ]
         );
     }

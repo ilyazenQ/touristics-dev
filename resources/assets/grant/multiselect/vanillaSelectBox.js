@@ -1459,3 +1459,10 @@ let eat_add= new vanillaSelectBox(
         "placeHolder":"Выберите несколько из списка",
         "translations": { "selectAll": "Выбрать все", "all": "Выбраны все", "items": "Об отеле","clearAll":"Очистить выбор" }
     });
+
+let mounth = new vanillaSelectBox(
+    "#mounth",
+    {
+        "placeHolder":"Выберите несколько из списка",
+        "translations": { "selectAll": "Выбрать все", "all": "Выбраны все", "items": "Месяцы","clearAll":"Очистить выбор" }
+    });

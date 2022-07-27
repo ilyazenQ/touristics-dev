@@ -2,7 +2,7 @@
 
 namespace App\Actions\RoomActions;
 
-use App\Actions\PlaceActions\SaveOrUpdateMonthPlaceAction;
+use App\Actions\PlaceActions\SaveMonthPlaceAtion;
 use App\Models\Month;
 use App\Models\Room;
 use App\Models\RoomMonth;
@@ -27,7 +27,7 @@ class SaveMonthRoomAction
                     'price' => $month['price'],
                 ]);
 
-                SaveOrUpdateMonthPlaceAction::execute($month,$room,$monthDB);
+                SaveMonthPlaceAtion::execute($month,$room,$monthDB);
 
                 $roomMonth->save();
             }

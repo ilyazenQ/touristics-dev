@@ -2,7 +2,7 @@
 
 namespace App\Actions\RoomActions;
 
-use App\Actions\PlaceActions\SaveMonthPlaceAtion;
+use App\Actions\MonthAction\SaveMonthPlaceAtion;
 use App\Models\Month;
 use App\Models\Room;
 use App\Models\RoomMonth;

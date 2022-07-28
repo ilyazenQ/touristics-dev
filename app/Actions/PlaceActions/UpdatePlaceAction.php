@@ -20,6 +20,7 @@ class UpdatePlaceAction
                 'stars' => $data['stars'],
                 'type_id' => $data['type_id'],
                 'location_id' => $data['location_id'],
+                'price' => $data['price']
             ]
         );
         $place->abouts()->sync($request->about_place);

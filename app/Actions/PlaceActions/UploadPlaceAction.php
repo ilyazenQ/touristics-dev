@@ -21,7 +21,7 @@ class UploadPlaceAction
                 'user_fill' => $userFillStored,
                 'state' => $stateStored
             ];
-    //        UpdateTypeAndLocationCountAction::execute($data);
+            UpdateTypeAndLocationCountAction::execute($data);
 
             $placeStored = SavePlaceAction::execute($data, $referencesValues, $request);
             SaveMonthPlaceAction::execute($placeStored, $data['months']);

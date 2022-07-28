@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 
+
 use App\Actions\PlaceActions\DestroyPlaceImageAction;
 use App\Actions\PlaceActions\UpdatePlaceAndReferencesAction;
 use App\Actions\PlaceActions\UploadPlaceAction;
@@ -56,6 +57,7 @@ class PlaceController extends Controller
         $locations = Location::all();
         $types = Type::all();
         $aboutPlace = AboutPlace::all();
+        $months = Month::all();
 
         return view(
             'place.edit',
@@ -63,7 +65,8 @@ class PlaceController extends Controller
                 'place' => $place,
                 'locations' => $locations,
                 'types' => $types,
-                'about' => $aboutPlace
+                'about' => $aboutPlace,
+                'months' => $months
             ]
         );
     }
@@ -97,6 +100,7 @@ class PlaceController extends Controller
             'on_map' => 'required|string',
             'description' => 'required|string',
             'phone' => 'required',
+            'price' => 'required|integer',
             'check-in' => 'required|integer',
             'check-out' => 'required|integer',
             'documents' => 'required|string',
@@ -161,11 +165,13 @@ class PlaceController extends Controller
             'on_map' => 'required|string',
             'description' => 'required|string',
             'phone' => 'required',
+            'price' => 'required|integer',
             'check-in' => 'required|integer',
             'check-out' => 'required|integer',
             'documents' => 'required|string',
             'room-fund' => 'required|string',
             'cooking' => 'required|string',
+            'months' => 'required'
         ]);
 
         UpdatePlaceAndReferencesAction::execute($data, $request, $place);

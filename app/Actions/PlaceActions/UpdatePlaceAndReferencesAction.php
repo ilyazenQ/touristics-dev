@@ -10,13 +10,14 @@ class UpdatePlaceAndReferencesAction
 {
     static function execute(array $data, Request $request, Place $place)
     {
-        DB::transaction(function () use ($data,$place,$request) {
 
             UpdateSocialNetworkAction::execute($data, $place);
             UpdateUserFillPlaceAction::execute($data, $place);
 
-            UpdatePlaceAction::execute($data, $request, $place);
-        });
+            $place = UpdatePlaceAction::execute($data, $request, $place);
+
+            UpdatePlaceMonthAction::execute($place, $data['months']);
+
 
     }
 }

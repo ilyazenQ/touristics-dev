@@ -14,11 +14,7 @@ class SaveMonthRoomAction
     {
         foreach ($data['months'] as $month) {
             if (isset($month["id"]) && !is_null($month["price"])) {
-                $monthDB= Month::findOrFail($month["id"]);
-
-                $monthDB->count += 1;
-
-                $monthDB->save();
+                $monthDB = Month::findOrFail($month["id"]);
 
                 $roomMonth = RoomMonth::create([
                     'title' => $monthDB->title,
@@ -26,8 +22,6 @@ class SaveMonthRoomAction
                     'room_id' => $room->id,
                     'price' => $month['price'],
                 ]);
-
-                SaveMonthPlaceAtion::execute($month,$room,$monthDB);
 
                 $roomMonth->save();
             }

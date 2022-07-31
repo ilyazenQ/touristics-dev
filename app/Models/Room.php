@@ -50,7 +50,9 @@ class Room extends Model
     public function scopePlaceInMonth(Builder $query, string $monthID): Builder
     {
         $placeID = request()->session()->get('place_id');
-        $roomIDs = RoomMonth::where('month_id','=',$monthID)->where('place_id','=',$placeID)->get()->pluck('room_id')->toArray();
+        $place = Place::findOrFail($placeID);
+        $roomsInPlace = $place->rooms()->pluck('id')->toArray();
+        $roomIDs = RoomMonth::where('month_id','=',$monthID)->whereIn('room_id',$roomsInPlace)->get()->pluck('room_id')->toArray();
         return $query->whereIn('id', $roomIDs);
     }
 

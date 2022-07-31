@@ -46,7 +46,7 @@ class RoomController extends Controller
         ]);
 
         $room = UploadRoomAction::execute($data, $request);
-        UpdatePlacePriceAction::execute($room);
+//        UpdatePlacePriceAction::execute($room);
 
         return redirect()->route('roomCreateImages', $room->id);
     }
@@ -84,7 +84,6 @@ class RoomController extends Controller
         ]);
 
         UpdateRoomAndReferencesAction::execute($data, $request, $room);
-        UpdatePlacePriceAction::execute($room);
 
         return redirect()->route('userPanel')->with('success', "Размещение $room->title успешно обновлено!");
 
@@ -140,15 +139,16 @@ class RoomController extends Controller
         $about = $place->abouts;
         $session = request()->session()->all();
         $months = Month::all();
+        $rooms = (new RoomQuery())->paginate()->appends(request()->query());
         try {
             $comments = $place->comments;
-            $rooms = new RoomQuery(request()->query());
             $aboutRoom = RoomAbout::all();
         } catch (Exception $e) {
-            $rooms = [];
+//            $rooms = [];
             $aboutRoom = [];
             $comments = [];
         }
+
         return view(
             'single',
             [

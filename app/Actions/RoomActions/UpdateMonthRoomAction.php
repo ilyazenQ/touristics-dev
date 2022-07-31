@@ -2,8 +2,7 @@
 
 namespace App\Actions\RoomActions;
 
-use App\Actions\MonthAction\SaveMonthPlaceAtion;
-use App\Actions\MonthAction\UpdateOrDeleteMonthPlaceAction;
+
 use App\Models\Month;
 use App\Models\Room;
 use App\Models\RoomMonth;
@@ -21,15 +20,13 @@ class UpdateMonthRoomAction
                 $roomMonth = RoomMonth::findOrFail($roomMonth->id);
 
                 if ((count($month) == 2 && !is_null($month['price']))) {
-                    $monthDB = Month::findOrFail($month["id"]);
+
                     $roomMonth->update([
                         'price' => $month['price']
                     ]);
-                    SaveMonthPlaceAtion::execute($month, $room, $monthDB);
-                } elseif (count($month) == 1 || (count($month) == 2 && is_null($month['price']))) {
-                    UpdateOrDeleteMonthPlaceAction::execute($room, $roomMonth->month_id);
-                    $roomMonth->delete();
 
+                } elseif (count($month) == 1 || (count($month) == 2 && is_null($month['price']))) {
+                    $roomMonth->delete();
                 }
             } elseif (isset($month["id"]) && !is_null($month["price"])) {
                 $monthDB = Month::findOrFail($month["id"]);
@@ -40,7 +37,6 @@ class UpdateMonthRoomAction
                     'room_id' => $room->id,
                     'price' => $month['price'],
                 ]);
-                SaveMonthPlaceAtion::execute($month, $room, $monthDB);
                 $roomMonth->save();
             }
         }

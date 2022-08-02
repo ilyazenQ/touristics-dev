@@ -7,6 +7,7 @@ use App\Actions\RoomActions\DestroyRoomImagesAction;
 use App\Actions\RoomActions\UpdateRoomAndReferencesAction;
 use App\Actions\RoomActions\UploadRoomAction;
 use App\Actions\RoomActions\UploadRoomImagesAction;
+use App\Actions\SaveFiltersInSessionAction;
 use App\Models\Month;
 use App\Models\Place;
 use App\Models\Room;
@@ -133,21 +134,23 @@ class RoomController extends Controller
         return redirect()->route('roomImagesEdit', $roomID)->with('success', 'Успешно удалено');
     }
 
-    public function roomFilter(int $id)
+    public function roomFilter(Request $request, int $id)
     {
         $place = Place::findOrFail($id);
         $about = $place->abouts;
-        $session = request()->session()->all();
         $months = Month::all();
-        $rooms = (new RoomQuery())->paginate()->appends(request()->query());
         try {
+            $rooms = (new RoomQuery($place->id))->paginate()->appends(request()->query());
+            SaveFiltersInSessionAction::execute($request);
             $comments = $place->comments;
             $aboutRoom = RoomAbout::all();
         } catch (Exception $e) {
-//            $rooms = [];
+            $rooms = [];
             $aboutRoom = [];
             $comments = [];
         }
+        $session = request()->session()->all();
+
 
         return view(
             'single',

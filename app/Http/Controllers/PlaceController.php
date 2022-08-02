@@ -14,6 +14,7 @@ use App\Models\Month;
 use App\Models\Place;
 use App\Models\RoomAbout;
 use App\Models\Type;
+use App\Queries\RoomQuery;
 use Exception;
 use Illuminate\Http\Request;
 
@@ -30,7 +31,7 @@ class PlaceController extends Controller
         request()->session()->put('place_id', $id);
         try {
             $comments = $place->comments;
-            $rooms = $place->rooms;
+            $rooms = (new RoomQuery($place->id))->paginate()->appends(request()->query());;
             $aboutRoom = RoomAbout::all();
         } catch (Exception $e) {
             $rooms = [];

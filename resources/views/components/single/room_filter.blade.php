@@ -17,7 +17,7 @@
 <div class="container mb-3">
 
 
-    <form action="{{route('roomFilter',$place->id)}}" method="get" novalidate="novalidate">
+    <form action="{{route('placeSingle',$place->id)}}" method="get" novalidate="novalidate">
         <div class="row">
 
             <div class="row">
@@ -31,6 +31,18 @@
                         @endforeach
 
                     </select>
+
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-12 p-0">
+                    <select class="form-select search-slt"
+                            id="month" name="filter[type_id]">
+                        <option value="">Любой тип номера</option>
+                        @foreach($roomTypes as $type)
+                            <option value="{{ $type->id  }}" @if($session['filter'] && $session['filter']['type_id'] == $type->id) selected @endif>{{ $type->title }}</option>
+                        @endforeach
+
+                    </select>
+
                 </div>
 {{--                <div class="col-lg-3 col-md-3 col-sm-12 p-0">--}}
 {{--                    <select class="form-select search-slt" id="exampleFormControlSelect1">--}}
@@ -44,7 +56,7 @@
 {{--                    </select>--}}
 {{--                </div>--}}
                 <div class="col-lg-3 col-md-3 col-sm-12 p-0">
-                    <button type="submit" class="btn btn-primary wrn-btn">Search</button>
+                    <button type="submit" class="btn btn-primary wrn-btn">Искать</button>
                 </div>
             </div>
         </div>

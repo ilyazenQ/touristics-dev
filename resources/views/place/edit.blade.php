@@ -497,6 +497,40 @@
                             @endforeach
                         </select>
                     </div>
+                    <h2>Месяцы и цена</h2>
+                    <div class="form-group m-2">
+                        <label for="cooking-self">
+                            Выберите месяцы работы</label>
+                        <select id="mounth"
+                                class="form-control"
+                                name="months[]"
+                                multiple="multiple"
+                        >
+                            @foreach($months as $month)
+
+                                <option
+                                    value="{{ $month->id }}"
+                                    @if(in_array($month->id, $place->months->pluck('month_id')->all())) selected @endif>
+                                    {{ $month->title }}
+                                </option>
+
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <div class="form-group m-2">
+
+                        <label for="restaurant-fund" class="d-block">
+                            Цена от
+                        </label>
+                        <input type="text"
+                               class="form-control mx-2"
+                               id="price"
+                               name="price"
+                               value="{{$place->price}}"
+                        >
+                    </div>
+
 
                     <button type="submit" class="btn btn-primary m-2">Применить изменения</button>
                 </form>

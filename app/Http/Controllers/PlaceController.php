@@ -3,16 +3,21 @@
 namespace App\Http\Controllers;
 
 
+
 use App\Actions\PlaceActions\DestroyPlaceImageAction;
 use App\Actions\PlaceActions\UpdatePlaceAndReferencesAction;
 use App\Actions\PlaceActions\UploadPlaceAction;
 use App\Actions\PlaceActions\UploadPlaceImagesAction;
+use App\Actions\RoomActions\GetUniqRoomTypesAction;
+use App\Actions\SaveFiltersInSessionAction;
 use App\Models\AboutPlace;
 use App\Models\Location;
 use App\Models\Month;
 use App\Models\Place;
 use App\Models\RoomAbout;
+use App\Models\RoomType;
 use App\Models\Type;
+use App\Queries\RoomQuery;
 use Exception;
 use Illuminate\Http\Request;
 
@@ -20,22 +25,19 @@ use Illuminate\Http\Request;
 class PlaceController extends Controller
 {
 
-    public function show(int $id)
+    public function show(Request $request, int $id)
     {
         $place = Place::findOrFail($id);
         $about = $place->abouts;
         $months = Month::all();
-        $session = request()->session()->all();
+        $comments = $place->comments;
+        $rooms = (new RoomQuery($place->id))->paginate()->appends(request()->query()) ?? [];
+        SaveFiltersInSessionAction::execute($request);
         request()->session()->put('place_id', $id);
-        try {
-            $comments = $place->comments;
-            $rooms = $place->rooms;
-            $aboutRoom = RoomAbout::all();
-        } catch (Exception $e) {
-            $rooms = [];
-            $aboutRoom = [];
-            $comments = [];
-        }
+        $aboutRoom = RoomAbout::all() ?? [];
+        $roomTypes = GetUniqRoomTypesAction::execute($place) ?? [];
+        $session = request()->session()->all();
+
         return view(
             'single',
             [
@@ -45,9 +47,12 @@ class PlaceController extends Controller
                 'about' => $about,
                 'months' => $months,
                 'session' => $session,
-                'comments' => $comments
+                'comments' => $comments,
+                'roomTypes' => $roomTypes,
             ]
         );
+
+
     }
 
     public function edit(int $id)
@@ -56,6 +61,7 @@ class PlaceController extends Controller
         $locations = Location::all();
         $types = Type::all();
         $aboutPlace = AboutPlace::all();
+        $months = Month::all();
 
         return view(
             'place.edit',
@@ -63,7 +69,8 @@ class PlaceController extends Controller
                 'place' => $place,
                 'locations' => $locations,
                 'types' => $types,
-                'about' => $aboutPlace
+                'about' => $aboutPlace,
+                'months' => $months
             ]
         );
     }
@@ -73,13 +80,15 @@ class PlaceController extends Controller
         $locations = Location::all();
         $types = Type::all();
         $aboutPlace = AboutPlace::all();
+        $months = Month::all();
 
         return view(
             'place.create',
             [
                 'locations' => $locations,
                 'types' => $types,
-                'about' => $aboutPlace
+                'about' => $aboutPlace,
+                'months' => $months,
             ]
         );
     }
@@ -95,6 +104,7 @@ class PlaceController extends Controller
             'on_map' => 'required|string',
             'description' => 'required|string',
             'phone' => 'required',
+            'price' => 'required|integer',
             'check-in' => 'required|integer',
             'check-out' => 'required|integer',
             'documents' => 'required|string',
@@ -159,16 +169,19 @@ class PlaceController extends Controller
             'on_map' => 'required|string',
             'description' => 'required|string',
             'phone' => 'required',
+            'price' => 'required|integer',
             'check-in' => 'required|integer',
             'check-out' => 'required|integer',
             'documents' => 'required|string',
             'room-fund' => 'required|string',
             'cooking' => 'required|string',
+            'months' => 'required'
         ]);
 
         UpdatePlaceAndReferencesAction::execute($data, $request, $place);
 
         return redirect()->route('userPanel')->with('success', 'Профиль отеля успешно изменён!');
     }
+
 
 }

@@ -8,9 +8,11 @@ use Spatie\QueryBuilder\QueryBuilder;
 
 class RoomQuery extends QueryBuilder
 {
-    public function __construct()
+    public function __construct(
+        private int $placeId
+    )
     {
-        $query = Room::query()->with('type', 'images');
+        $query = Room::query()->where('place_id', '=', $this->placeId)->with('type', 'images');
 
         parent::__construct($query);
 
@@ -21,7 +23,6 @@ class RoomQuery extends QueryBuilder
         ]);
 
         $this->allowedFilters([
-
             AllowedFilter::scope('place_in_month'),
             AllowedFilter::exact('id'),
             AllowedFilter::exact('price'),

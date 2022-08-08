@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Actions\PlaceActions\UpdatePlacePriceAction;
 use App\Actions\RoomActions\DestroyRoomImagesAction;
+use App\Actions\RoomActions\GetUniqRoomTypesAction;
 use App\Actions\RoomActions\UpdateRoomAndReferencesAction;
 use App\Actions\RoomActions\UploadRoomAction;
 use App\Actions\RoomActions\UploadRoomImagesAction;
+use App\Actions\SaveFiltersInSessionAction;
 use App\Models\Month;
 use App\Models\Place;
 use App\Models\Room;
@@ -46,7 +48,7 @@ class RoomController extends Controller
         ]);
 
         $room = UploadRoomAction::execute($data, $request);
-        UpdatePlacePriceAction::execute($room);
+//        UpdatePlacePriceAction::execute($room);
 
         return redirect()->route('roomCreateImages', $room->id);
     }
@@ -84,7 +86,6 @@ class RoomController extends Controller
         ]);
 
         UpdateRoomAndReferencesAction::execute($data, $request, $room);
-        UpdatePlacePriceAction::execute($room);
 
         return redirect()->route('userPanel')->with('success', "Размещение $room->title успешно обновлено!");
 
@@ -134,21 +135,19 @@ class RoomController extends Controller
         return redirect()->route('roomImagesEdit', $roomID)->with('success', 'Успешно удалено');
     }
 
-    public function roomFilter(int $id)
+    public function roomFilter(Request $request, int $id)
     {
         $place = Place::findOrFail($id);
         $about = $place->abouts;
-        $session = request()->session()->all();
         $months = Month::all();
-        try {
-            $comments = $place->comments;
-            $rooms = new RoomQuery(request()->query());
-            $aboutRoom = RoomAbout::all();
-        } catch (Exception $e) {
-            $rooms = [];
-            $aboutRoom = [];
-            $comments = [];
-        }
+        $comments = $place->comments;
+        $rooms = (new RoomQuery($place->id))->paginate()->appends(request()->query()) ?? [];
+        SaveFiltersInSessionAction::execute($request);
+        $aboutRoom = RoomAbout::all() ?? [];
+        $roomTypes = GetUniqRoomTypesAction::execute($place) ?? [];
+        $session = request()->session()->all();
+
+
         return view(
             'single',
             [
@@ -158,7 +157,8 @@ class RoomController extends Controller
                 'about' => $about,
                 'months' => $months,
                 'session' => $session,
-                'comments' => $comments
+                'comments' => $comments,
+                'roomTypes' => $roomTypes,
             ]
         );
     }

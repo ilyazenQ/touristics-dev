@@ -312,14 +312,14 @@
                         </div>
                         <hr>
 
-                        @if(count($rooms))
-                    @include('components.single.room_filter')
-                        @endif
+
+                            @include('components.single.room_filter')
+
 
                         <div class="room-wrapper container">
                             @if(!count($rooms))
 
-                                <h2 class="m-1">Пока нет активных размещений</h2>
+                                <h2 class="m-1 m-5">Номеров не найдено</h2>
                                 <hr>
                             @else
 

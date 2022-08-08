@@ -8,11 +8,14 @@ use App\Actions\PlaceActions\DestroyPlaceImageAction;
 use App\Actions\PlaceActions\UpdatePlaceAndReferencesAction;
 use App\Actions\PlaceActions\UploadPlaceAction;
 use App\Actions\PlaceActions\UploadPlaceImagesAction;
+use App\Actions\RoomActions\GetUniqRoomTypesAction;
+use App\Actions\SaveFiltersInSessionAction;
 use App\Models\AboutPlace;
 use App\Models\Location;
 use App\Models\Month;
 use App\Models\Place;
 use App\Models\RoomAbout;
+use App\Models\RoomType;
 use App\Models\Type;
 use App\Queries\RoomQuery;
 use Exception;
@@ -22,22 +25,19 @@ use Illuminate\Http\Request;
 class PlaceController extends Controller
 {
 
-    public function show(int $id)
+    public function show(Request $request, int $id)
     {
         $place = Place::findOrFail($id);
         $about = $place->abouts;
         $months = Month::all();
-        $session = request()->session()->all();
+        $comments = $place->comments;
+        $rooms = (new RoomQuery($place->id))->paginate()->appends(request()->query()) ?? [];
+        SaveFiltersInSessionAction::execute($request);
         request()->session()->put('place_id', $id);
-        try {
-            $comments = $place->comments;
-            $rooms = (new RoomQuery($place->id))->paginate()->appends(request()->query());;
-            $aboutRoom = RoomAbout::all();
-        } catch (Exception $e) {
-            $rooms = [];
-            $aboutRoom = [];
-            $comments = [];
-        }
+        $aboutRoom = RoomAbout::all() ?? [];
+        $roomTypes = GetUniqRoomTypesAction::execute($place) ?? [];
+        $session = request()->session()->all();
+
         return view(
             'single',
             [
@@ -47,9 +47,12 @@ class PlaceController extends Controller
                 'about' => $about,
                 'months' => $months,
                 'session' => $session,
-                'comments' => $comments
+                'comments' => $comments,
+                'roomTypes' => $roomTypes,
             ]
         );
+
+
     }
 
     public function edit(int $id)
@@ -179,5 +182,6 @@ class PlaceController extends Controller
 
         return redirect()->route('userPanel')->with('success', 'Профиль отеля успешно изменён!');
     }
+
 
 }

@@ -12,7 +12,9 @@
             @include('components.main.body_filters')
 
             <div class="app-main-left cards-area">
-
+            @if(count($places) === 0)
+                <h2>По вашему запросу ничего не найдено</h2>
+                @else
                 @foreach($places as $place)
                     <div class="card-wrapper main-card">
                         <a class="card cardItemjs"  href="{{ route("placeSingle", ['id' => $place->id, 'filter[place_in_month]' => $session['filter']['place_in_month']]) }}">
@@ -57,6 +59,7 @@
                         </a>
                     </div>
                 @endforeach
+                @endif
 
             </div>
         </section>

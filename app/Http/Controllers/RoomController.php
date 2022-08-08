@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Actions\PlaceActions\UpdatePlacePriceAction;
 use App\Actions\RoomActions\DestroyRoomImagesAction;
+use App\Actions\RoomActions\GetUniqRoomTypesAction;
 use App\Actions\RoomActions\UpdateRoomAndReferencesAction;
 use App\Actions\RoomActions\UploadRoomAction;
 use App\Actions\RoomActions\UploadRoomImagesAction;
@@ -139,16 +140,11 @@ class RoomController extends Controller
         $place = Place::findOrFail($id);
         $about = $place->abouts;
         $months = Month::all();
-        try {
-            $rooms = (new RoomQuery($place->id))->paginate()->appends(request()->query());
-            SaveFiltersInSessionAction::execute($request);
-            $comments = $place->comments;
-            $aboutRoom = RoomAbout::all();
-        } catch (Exception $e) {
-            $rooms = [];
-            $aboutRoom = [];
-            $comments = [];
-        }
+        $comments = $place->comments;
+        $rooms = (new RoomQuery($place->id))->paginate()->appends(request()->query()) ?? [];
+        SaveFiltersInSessionAction::execute($request);
+        $aboutRoom = RoomAbout::all() ?? [];
+        $roomTypes = GetUniqRoomTypesAction::execute($place) ?? [];
         $session = request()->session()->all();
 
 
@@ -161,7 +157,8 @@ class RoomController extends Controller
                 'about' => $about,
                 'months' => $months,
                 'session' => $session,
-                'comments' => $comments
+                'comments' => $comments,
+                'roomTypes' => $roomTypes,
             ]
         );
     }

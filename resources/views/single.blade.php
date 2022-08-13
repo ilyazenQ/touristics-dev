@@ -526,7 +526,20 @@
 
 
 
-                                                    <p class="card-text btn btn-outline-info">Цена: 2000 рублей/сутки</p>
+                                                    <p class="card-text btn btn-outline-info">Цена:
+                                                        @if($session['filter']  && !is_null($session['filter']['place_in_month']))
+                                                            {{ $room->months()->PriceByMonthIdAndRoom($session['filter']['place_in_month'],$room)->price }}
+                                                        @else
+                                                            <ul>
+                                                            @foreach($room->months as $month)
+                                                           <li>
+                                                            {{$month->title}} : {{ $month->price }}
+                                                           </li>
+                                                            @endforeach
+                                                            </ul>
+                                                        @endif
+
+                                                    </p>
                                                     @if(false)
 {{--                                                    <div>--}}
 {{--                                                        <a href="{{ route('roomEdit', $room->id) }}" class="btn btn-primary btn-lg">--}}
@@ -556,13 +569,18 @@
 
                             </p>
                                     <hr>
-
                                 @endguest
 
 
 
                             <div class="container rating-form">
                                 <h2 class="mb-4">Текущаяя оценка:</h2>
+                                @if($place->rating === 0)
+                                    <p class="mb-0">
+                                        Никто еще не оценил проживание. Ваш голос будет первым
+                                    </p>
+                                    <hr>
+                                @else
                                 <div class="border p-3 rounded">
                                     <div class="row">
                                         @for($i=1; $i<=4; $i++)
@@ -570,6 +588,7 @@
                                         @endfor
                                     </div>
                                 </div>
+                                @endif
                             </div>
 
                                 @auth

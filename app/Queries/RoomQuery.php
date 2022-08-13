@@ -16,7 +16,7 @@ class RoomQuery extends QueryBuilder
 
         parent::__construct($query);
 
-        $this->allowedSorts(['id', 'price']);
+        $this->allowedSorts(['id', 'price', 'month']);
 
         $this->allowedIncludes([
             'types', 'months'

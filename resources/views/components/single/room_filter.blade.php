@@ -38,7 +38,7 @@
                             id="month" name="filter[type_id]">
                         <option value="">Любой тип номера</option>
                         @foreach($roomTypes as $type)
-                            <option value="{{ $type->id  }}" @if($session['filter'] && $session['filter']['type_id'] == $type->id) selected @endif>{{ $type->title }}</option>
+                            <option value="{{ $type->id  }}" @if($session['filter'] &&  $session['filter']['type_id'] && $session['filter']['type_id'] == $type->id) selected @endif>{{ $type->title }}</option>
                         @endforeach
 
                     </select>

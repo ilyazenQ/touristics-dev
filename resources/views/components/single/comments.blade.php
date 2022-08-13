@@ -2,6 +2,12 @@
     <div class="row d-flex justify-content-center">
         <div class="col col">
             <h2 class="mb-4">Комментарии</h2>
+            @if(count($comments) === 0)
+                <p class="mb-0">
+                    Список комментариев пуст. Ваш комментарий будет первым
+                </p>
+                <hr>
+            @else
             @foreach($comments as $comment)
                 <div class="card text-dark">
 
@@ -30,6 +36,7 @@
                 </div>
                 @endforeach
                 <hr class="my-0" />
+                    @endif
 
 
                 @auth
